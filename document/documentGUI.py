@@ -60,7 +60,9 @@ class DocumentGUI(QMainWindow):
     def get_ont_save_filepath(self, filename: str, ext: str = 'ont'):
         now = datetime.now().strftime('%d-%m-%Y')
         ont_name = f'{os.path.splitext(filename)[0]}_{now}'
-        path = os.path.abspath(f'data/saved_ontologies')
+        self.__create_folder_if_not_exists('data')
+        self.__create_folder_if_not_exists('data/saved_ontologies')
+        path = os.path.abspath('data/saved_ontologies')
         same_filenames = [os.path.basename(path) for path in glob(os.path.join(path, f'{ont_name}*.json'))]
         file_numbers = self.__get_file_numbers(same_filenames, ext)
         if file_numbers:
@@ -68,6 +70,10 @@ class DocumentGUI(QMainWindow):
         else:
             new_filename = f'{ont_name}.{ext}'
         return os.path.join(path, new_filename)
+
+    def __create_folder_if_not_exists(self, name: str):
+        if not os.path.exists(name):
+            os.mkdir(name)
 
     def __get_file_numbers(self, filenames, ext):
         file_numbers = []
