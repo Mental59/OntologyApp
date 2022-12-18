@@ -57,6 +57,13 @@ class DocumentGUI(QMainWindow):
         doc_window = DocumentTextGUI(parent=self, document=document)
         doc_window.show()
 
+    def save_ont(self, document):
+        save_filepath = self.get_ont_save_filepath(document.filename)
+        ont_fragment = document.get_ont_fragment()
+        with open(save_filepath, 'w') as file:
+            json.dump(ont_fragment, file)
+        QMessageBox.about(self, 'Онтология успешно сохранена', f'Онтология сохранена по пути: {save_filepath}')
+
     def get_ont_save_filepath(self, filename: str, ext: str = 'ont'):
         now = datetime.now().strftime('%d-%m-%Y')
         ont_name = f'{os.path.splitext(filename)[0]}_{now}'
@@ -84,10 +91,3 @@ class DocumentGUI(QMainWindow):
             else:
                 file_numbers.append(int(match.group()))
         return file_numbers
-
-    def save_ont(self, document):
-        save_filepath = self.get_ont_save_filepath(document.filename)
-        ont_fragment = document.get_ont_fragment()
-        with open(save_filepath, 'w') as file:
-            json.dump(ont_fragment, file)
-        QMessageBox.about(self, 'Онтология успешно сохранена', f'Онтология сохранена по пути: {save_filepath}')
