@@ -79,7 +79,8 @@ class Onto:
         return undirected_graph.subgraph(res_nodes)
 
     def get_number_of_paths(self, node_id1, node_id2, cutoff):
-        all_simple_paths = nx.all_simple_paths(self.digraph, source=node_id1, target=node_id2, cutoff=cutoff)
+        undirected_graph = nx.to_undirected(self.digraph)
+        all_simple_paths = nx.all_simple_paths(undirected_graph, source=node_id1, target=node_id2, cutoff=cutoff)
         return len(list(all_simple_paths))
 
     @classmethod

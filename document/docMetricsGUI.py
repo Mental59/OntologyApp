@@ -31,13 +31,13 @@ class DocumentMetricsGUI(QMainWindow):
             self.__insert_item_to_table(
                 name1,
                 name2,
-                metric.s_ij,
-                metric.s_ij_norm,
-                metric.p_ij,
-                metric.u_b,
-                metric.e_ij,
-                metric.b_i,
-                metric.b_j
+                round(metric.s_ij, 3),
+                round(metric.s_ij_norm, 3),
+                round(metric.p_ij, 3),
+                round(metric.u_b, 3),
+                round(metric.e_ij, 3),
+                round(metric.b_i, 3),
+                round(metric.b_j, 3)
             )
 
     def __create_item(self, value):

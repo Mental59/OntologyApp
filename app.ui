@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>705</width>
-    <height>511</height>
+    <width>1280</width>
+    <height>960</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -203,7 +203,7 @@
                 <number>30</number>
                </property>
                <property name="value">
-                <number>10</number>
+                <number>5</number>
                </property>
               </widget>
              </item>
@@ -238,13 +238,13 @@
              <item>
               <widget class="QSpinBox" name="kSpinBox">
                <property name="minimum">
-                <number>1</number>
+                <number>0</number>
                </property>
                <property name="maximum">
                 <number>30</number>
                </property>
                <property name="value">
-                <number>10</number>
+                <number>5</number>
                </property>
               </widget>
              </item>
@@ -391,7 +391,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>705</width>
+     <width>1280</width>
      <height>21</height>
     </rect>
    </property>

@@ -20,7 +20,7 @@ class GUI(QMainWindow):
         self.setup_table_widget()
 
     def setup_table_widget(self):
-        self.tableWidget.setColumnWidth(0, 500)
+        self.tableWidget.setColumnWidth(0, 700)
         self.tableWidget.setColumnWidth(1, 100)
         header = self.tableWidget.verticalHeader()
         header.setSectionResizeMode(QHeaderView.Fixed)

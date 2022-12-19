@@ -14,6 +14,7 @@ class Sentence:
     source_sentence: list[str]
     normalized_sentence: list[str]
     attached_nodes: list = field(default_factory=list)
+    attached_node_ids: list = field(default_factory=list)
 
 
 @dataclass
@@ -67,6 +68,7 @@ class Document:
                 if count:
                     node_counts[node['id']] += count
                     sentence.attached_nodes.append(node)
+                    sentence.attached_node_ids.append(node['id'])
         self.node_counts = node_counts
         self.attached_nodes = [onto.node_dict[node_id] for node_id in node_counts.keys()]
 
@@ -103,7 +105,7 @@ class Document:
 
     def calc_metrics(self, n: int, k: int, b: int):
         metrics = dict()
-        self.e = self.calculate_e()
+        self.e = self.calculate_e(k)
 
         for node1 in self.attached_nodes:
             for node2 in self.attached_nodes:
@@ -132,23 +134,28 @@ class Document:
         return metrics
 
     @cache
-    def calculate_e(self):
+    def calculate_e(self, k):
         e = dict()
         for node1 in self.attached_nodes:
             for node2 in self.attached_nodes:
                 node_id1 = node1['id']
                 node_id2 = node2['id']
                 if node_id1 == node_id2: continue
-                e[(node_id1, node_id2)] = self.calculate_eij(node_id1, node_id2)
+                e[(node_id1, node_id2)] = self.calculate_eij(node_id1, node_id2, k)
         return e
 
     @cache
-    def calculate_eij(self, node_id1, node_id2):
+    def calculate_eij(self, node_id1, node_id2, k):
         res = 0
-        for sent in self.sentences:
-            node_ids = [node['id'] for node in sent.attached_nodes]
-            if node_id1 in node_ids and node_id2 in node_ids:
-                res += 1
+        node_id1_index_sentences = [sent.index for sent in self.sentences if node_id1 in sent.attached_node_ids]
+        node_id2_index_sentences = [sent.index for sent in self.sentences if node_id2 in sent.attached_node_ids]
+        for node_id2_index_sentence in node_id2_index_sentences:
+            distances = [abs(node_id1_index_sentence - node_id2_index_sentence)
+                         for node_id1_index_sentence in node_id1_index_sentences]
+            if len(distances) > 0:
+                min_distance = min(distances)
+                if min_distance <= k:
+                    res += 1
         return res
 
     @cache
